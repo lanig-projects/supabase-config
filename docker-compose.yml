@@ -10,8 +10,6 @@ services:
   studio:
     container_name: supabase-studio-${SLUG_PROJECT_ID}
     image: supabase/studio:20241014-c083b3b
-    networks:
-      - supabase-network
     restart: unless-stopped
     healthcheck:
       test:
@@ -52,8 +50,6 @@ services:
   kong:
     container_name: supabase-kong-${SLUG_PROJECT_ID}
     image: kong:2.8.1
-    networks:
-      - supabase-network
     restart: unless-stopped
     # https://unix.stackexchange.com/a/294837
     entrypoint: bash -c 'eval "echo \"$$(cat ~/temp.yml)\"" > ~/kong.yml && /docker-entrypoint.sh kong docker-start'
@@ -82,8 +78,6 @@ services:
   auth:
     container_name: supabase-auth-${SLUG_PROJECT_ID}
     image: supabase/gotrue:v2.158.1
-    networks:
-      - supabase-network
     depends_on:
       db:
         # Disable this if you are using an external Postgres database
@@ -167,8 +161,6 @@ services:
   rest:
     container_name: supabase-rest-${SLUG_PROJECT_ID}
     image: postgrest/postgrest:v12.2.0
-    networks:
-      - supabase-network
     depends_on:
       db:
         # Disable this if you are using an external Postgres database
@@ -190,8 +182,6 @@ services:
     # This container name looks inconsistent but is correct because realtime constructs tenant id by parsing the subdomain
     container_name: realtime-dev.supabase-realtime
     image: supabase/realtime:v2.30.34
-    networks:
-      - supabase-network
     depends_on:
       db:
         # Disable this if you are using an external Postgres database
@@ -236,8 +226,6 @@ services:
   storage:
     container_name: supabase-storage-${SLUG_PROJECT_ID}
     image: supabase/storage-api:v1.11.13
-    networks:
-      - supabase-network
     depends_on:
       db:
         # Disable this if you are using an external Postgres database
@@ -281,8 +269,6 @@ services:
   imgproxy:
     container_name: supabase-imgproxy-${SLUG_PROJECT_ID}
     image: darthsim/imgproxy:v3.8.0
-    networks:
-      - supabase-network
     healthcheck:
       test: [ "CMD", "imgproxy", "health" ]
       timeout: 5s
@@ -299,8 +285,6 @@ services:
   meta:
     container_name: supabase-meta-${SLUG_PROJECT_ID}
     image: supabase/postgres-meta:v0.84.2
-    networks:
-      - supabase-network
     depends_on:
       db:
         # Disable this if you are using an external Postgres database
@@ -319,8 +303,6 @@ services:
   functions:
     container_name: supabase-edge-functions-${SLUG_PROJECT_ID}
     image: supabase/edge-runtime:v1.59.0
-    networks:
-      - supabase-network
     restart: unless-stopped
     depends_on:
       analytics:
@@ -343,8 +325,6 @@ services:
   analytics:
     container_name: supabase-analytics-${SLUG_PROJECT_ID}
     image: supabase/logflare:1.4.0
-    networks:
-      - supabase-network
     healthcheck:
       test: [ "CMD", "curl", "http://localhost:4000/health" ]
       timeout: 5s
@@ -388,8 +368,6 @@ services:
   db:
     container_name: supabase-db-${SLUG_PROJECT_ID}
     image: supabase/postgres:15.1.1.78
-    networks:
-      - supabase-network
     healthcheck:
       test: pg_isready -U postgres -h localhost
       interval: 5s
@@ -437,8 +415,6 @@ services:
   vector:
     container_name: supabase-vector-${SLUG_PROJECT_ID}
     image: timberio/vector:0.28.1-alpine
-    networks:
-      - supabase-network
     healthcheck:
       test:
         [
@@ -464,8 +440,6 @@ services:
   supavisor:
     container_name: supabase-pooler-${SLUG_PROJECT_ID}
     image: supabase/supavisor:1.1.56
-    networks:
-      - supabase-network
     healthcheck:
       test: curl -sSfL --head -o /dev/null "http://127.0.0.1:4000/api/health"
       interval: 10s
