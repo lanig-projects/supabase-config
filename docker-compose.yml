@@ -4,7 +4,7 @@
 #   Stop:           docker compose down
 #   Destroy:        docker compose -f docker-compose.yml -f ./dev/docker-compose.dev.yml down -v --remove-orphans
 
-name: supabase-network
+name: supabase-{SLUG_PROJECT_ID}
 
 services:
   studio:
