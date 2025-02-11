@@ -480,7 +480,3 @@ services:
 
 volumes:
   db-config:
-networks:
-  supabase-network:
-    name: supabase-network-${SLUG_PROJECT_ID}
-    driver: bridge
