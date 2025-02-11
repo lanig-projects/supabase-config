@@ -199,7 +199,7 @@ services:
           "/dev/null",
           "-H",
           "Authorization: Bearer ${ANON_KEY}",
-          "http://localhost:${ANALYTICS_PORT}/api/tenants/realtime-dev/health"
+          "http://localhost:4000/api/tenants/realtime-dev/health"
         ]
       timeout: 5s
       interval: 5s
@@ -326,7 +326,7 @@ services:
     container_name: supabase-analytics-${SLUG_PROJECT_ID}
     image: supabase/logflare:1.4.0
     healthcheck:
-      test: [ "CMD", "curl", "http://localhost:${ANALYTICS_PORT}/health" ]
+      test: [ "CMD", "curl", "http://localhost:4000/health" ]
       timeout: 5s
       interval: 5s
       retries: 10
